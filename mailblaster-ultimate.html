@@ -1,0 +1,1111 @@
+<!DOCTYPE html>
+<!-- saved from url=(0059)file:///C:/Users/USER/Downloads/mailblaster-ultimate_5.html -->
+<html lang="en"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Mail Blaster Ultimate</title>
+<style>
+:root {
+  --bg: #f2f2f2; --app-bg: #ffffff; --sidebar: #1a1a2e; --sidebar-text: #c8c8e0;
+  --sidebar-active: #ffffff; --sidebar-active-bg: #2d2d50; --toolbar-bg: #f7f7f7;
+  --border: #e0e0e0; --text: #1a1a1a; --text2: #666; --text3: #999;
+  --accent: #2563eb; --accent2: #1d4ed8; --success: #16a34a; --danger: #dc2626;
+  --warning: #d97706; --info: #0891b2; --card: #ffffff; --input-bg: #ffffff;
+  --input-border: #d0d0d0; --hover: #f0f0f0; --tag-bg: #e8f0fe; --tag-text: #1a56db;
+  --progress-bg: #e5e7eb; --log-bg: #0f172a; --log-text: #94a3b8;
+}
+[data-theme="dark"] {
+  --bg: #0f0f1a; --app-bg: #1a1a2e; --sidebar: #111120; --sidebar-text: #8888aa;
+  --sidebar-active: #ffffff; --sidebar-active-bg: #2d2d50; --toolbar-bg: #16162a;
+  --border: #2d2d4a; --text: #e8e8f0; --text2: #9999bb; --text3: #5555777;
+  --accent: #3b82f6; --accent2: #2563eb; --success: #22c55e; --danger: #ef4444;
+  --warning: #f59e0b; --info: #06b6d4; --card: #1f1f35; --input-bg: #16162a;
+  --input-border: #2d2d4a; --hover: #252540; --tag-bg: #1e3a5f; --tag-text: #93c5fd;
+  --progress-bg: #2d2d4a; --log-bg: #080812; --log-text: #64748b;
+}
+*{box-sizing:border-box;margin:0;padding:0;}
+body{font-family:'Segoe UI',system-ui,sans-serif;background:var(--bg);min-height:100vh;display:flex;justify-content:center;align-items:flex-start;padding:16px;transition:background 0.3s;}
+.app{display:flex;width:100%;max-width:1000px;background:var(--app-bg);border-radius:14px;overflow:hidden;box-shadow:0 8px 40px rgba(0,0,0,0.18);min-height:600px;transition:background 0.3s;}
+
+/* SIDEBAR */
+.sidebar{width:180px;background:var(--sidebar);display:flex;flex-direction:column;flex-shrink:0;transition:background 0.3s;}
+.sidebar-logo{padding:18px 14px 12px;border-bottom:1px solid rgba(255,255,255,0.07);}
+.sidebar-logo-title{color:#fff;font-size:15px;font-weight:700;letter-spacing:0.02em;}
+.sidebar-logo-sub{color:#6666aa;font-size:10px;margin-top:2px;letter-spacing:0.08em;text-transform:uppercase;}
+.sidebar-nav{flex:1;padding:10px 0;overflow-y:auto;}
+.nav-group-label{font-size:9px;color:#44446a;text-transform:uppercase;letter-spacing:0.1em;padding:10px 14px 4px;font-weight:600;}
+.nav-item{display:flex;align-items:center;gap:9px;padding:9px 14px;cursor:pointer;font-size:12px;color:var(--sidebar-text);border-left:2px solid transparent;transition:all 0.15s;user-select:none;}
+.nav-item:hover{color:#fff;background:rgba(255,255,255,0.06);}
+.nav-item.active{color:var(--sidebar-active);background:var(--sidebar-active-bg);border-left-color:var(--accent);}
+.nav-item svg{width:14px;height:14px;flex-shrink:0;opacity:0.7;}
+.nav-item.active svg{opacity:1;}
+.sidebar-bottom{padding:12px;border-top:1px solid rgba(255,255,255,0.07);}
+.dark-toggle{display:flex;align-items:center;gap:8px;cursor:pointer;font-size:11px;color:#6666aa;padding:6px 2px;transition:color 0.15s;}
+.dark-toggle:hover{color:#aaaacc;}
+.toggle-pill{width:32px;height:18px;background:#2d2d50;border-radius:9px;position:relative;flex-shrink:0;transition:background 0.3s;}
+.toggle-pill::after{content:'';position:absolute;width:12px;height:12px;background:#6666aa;border-radius:50%;top:3px;left:3px;transition:all 0.3s;}
+[data-theme="dark"] .toggle-pill{background:#2563eb;}
+[data-theme="dark"] .toggle-pill::after{left:17px;background:#fff;}
+
+/* MAIN */
+.main{flex:1;display:flex;flex-direction:column;min-width:0;}
+.topbar{background:var(--toolbar-bg);border-bottom:1px solid var(--border);padding:8px 14px;display:flex;align-items:center;gap:6px;flex-wrap:wrap;transition:background 0.3s;}
+.tb-btn{display:inline-flex;align-items:center;gap:5px;padding:6px 11px;border:1px solid var(--border);border-radius:7px;background:var(--app-bg);cursor:pointer;font-size:12px;color:var(--text);font-family:inherit;transition:all 0.15s;white-space:nowrap;}
+.tb-btn:hover{background:var(--hover);border-color:var(--accent);}
+.tb-btn.send{background:var(--accent);color:#fff;border-color:var(--accent);font-weight:600;}
+.tb-btn.send:hover{background:var(--accent2);}
+.tb-btn.danger{color:var(--danger);}
+.tb-btn.warning{color:var(--warning);}
+.tb-btn svg{width:13px;height:13px;}
+.tb-sep{width:1px;height:26px;background:var(--border);}
+.statusbar{background:var(--toolbar-bg);border-bottom:1px solid var(--border);padding:5px 14px;font-size:11px;color:var(--text2);display:flex;align-items:center;gap:8px;}
+.sdot{width:7px;height:7px;border-radius:50%;background:var(--success);flex-shrink:0;transition:background 0.3s;}
+.panel{display:none;padding:18px;overflow-y:auto;flex:1;}
+.panel.active{display:flex;flex-direction:column;gap:14px;}
+
+/* Forms */
+.fr{display:flex;align-items:center;gap:10px;}
+.fr label{width:110px;text-align:right;font-size:12px;color:var(--text2);flex-shrink:0;}
+.fr input,.fr select,.fr textarea{flex:1;padding:7px 10px;border:1px solid var(--input-border);border-radius:6px;font-size:13px;background:var(--input-bg);color:var(--text);font-family:inherit;transition:border 0.15s;}
+.fr input:focus,.fr select:focus,.fr textarea:focus{outline:none;border-color:var(--accent);}
+.sec{font-size:10px;font-weight:700;color:var(--accent);text-transform:uppercase;letter-spacing:0.06em;padding-bottom:6px;border-bottom:1px solid var(--border);}
+.note{background:var(--tag-bg);border-radius:7px;padding:10px 13px;font-size:12px;color:var(--tag-text);line-height:1.6;}
+.btn{display:inline-flex;align-items:center;gap:6px;padding:7px 13px;border:1px solid var(--border);border-radius:6px;background:var(--app-bg);cursor:pointer;font-size:12px;color:var(--text);font-family:inherit;transition:all 0.15s;}
+.btn:hover{background:var(--hover);}
+.btn.primary{background:var(--accent);color:#fff;border-color:var(--accent);}
+.btn.primary:hover{background:var(--accent2);}
+.btn.success{background:var(--success);color:#fff;border-color:var(--success);}
+.btn.danger{background:var(--danger);color:#fff;border-color:var(--danger);}
+.btn.sm{padding:5px 10px;font-size:11px;}
+.row{display:flex;gap:8px;flex-wrap:wrap;align-items:center;}
+.badge{font-size:10px;padding:2px 8px;border-radius:20px;font-weight:600;display:inline-block;}
+.badge.blue{background:var(--tag-bg);color:var(--tag-text);}
+.badge.green{background:#dcfce7;color:#166534;}
+.badge.red{background:#fee2e2;color:#991b1b;}
+.badge.orange{background:#fef3c7;color:#92400e;}
+.badge.purple{background:#f3e8ff;color:#6b21a8;}
+[data-theme="dark"] .badge.green{background:#14532d;color:#86efac;}
+[data-theme="dark"] .badge.red{background:#7f1d1d;color:#fca5a5;}
+[data-theme="dark"] .badge.orange{background:#78350f;color:#fcd34d;}
+[data-theme="dark"] .badge.purple{background:#4a1d96;color:#d8b4fe;}
+
+/* Stats */
+.stat-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;}
+.stat-card{background:var(--card);border:1px solid var(--border);border-radius:9px;padding:13px;text-align:center;}
+.stat-num{font-size:24px;font-weight:700;margin-bottom:2px;}
+.stat-lbl{font-size:10px;color:var(--text2);text-transform:uppercase;letter-spacing:0.04em;}
+
+/* Progress */
+.prog-wrap{display:none;}
+.prog-bg{background:var(--progress-bg);border-radius:6px;height:10px;overflow:hidden;}
+.prog-fill{height:100%;background:linear-gradient(90deg,var(--accent),var(--success));border-radius:6px;width:0%;transition:width 0.3s;}
+.prog-txt{font-size:11px;color:var(--text2);margin-top:4px;text-align:center;}
+.log-box{background:var(--log-bg);border-radius:8px;padding:11px;font-family:'Courier New',monospace;font-size:11px;color:var(--log-text);min-height:80px;max-height:160px;overflow-y:auto;display:none;}
+.ll{margin-bottom:3px;}.ll.ok{color:#4ade80;}.ll.err{color:#f87171;}.ll.info{color:#60a5fa;}.ll.warn{color:#fbbf24;}
+
+/* Templates */
+.tpl-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(180px,1fr));gap:10px;}
+.tpl-card{border:1px solid var(--border);border-radius:9px;overflow:hidden;cursor:pointer;transition:all 0.15s;}
+.tpl-card:hover{border-color:var(--accent);box-shadow:0 2px 12px rgba(37,99,235,0.15);}
+.tpl-thumb{height:90px;padding:10px;font-size:10px;line-height:1.5;}
+.tpl-foot{padding:8px 10px;border-top:1px solid var(--border);background:var(--card);}
+.tpl-name{font-size:12px;font-weight:600;color:var(--text);}
+.tpl-type{font-size:10px;color:var(--text3);}
+
+/* Builder */
+.builder-wrap{display:grid;grid-template-columns:160px 1fr;gap:0;border:1px solid var(--border);border-radius:9px;overflow:hidden;min-height:320px;}
+.blocks-panel{background:var(--toolbar-bg);border-right:1px solid var(--border);padding:10px;}
+.block-lbl{font-size:9px;font-weight:700;color:var(--text3);text-transform:uppercase;letter-spacing:0.08em;margin-bottom:8px;}
+.block-item{padding:7px 9px;border:1px solid var(--border);border-radius:6px;margin-bottom:5px;cursor:pointer;font-size:11px;color:var(--text2);display:flex;align-items:center;gap:6px;background:var(--card);transition:all 0.15s;}
+.block-item:hover{border-color:var(--accent);color:var(--accent);}
+.canvas-panel{padding:12px;display:flex;flex-direction:column;gap:8px;}
+.canvas-title{font-size:10px;font-weight:700;color:var(--text3);text-transform:uppercase;letter-spacing:0.06em;}
+.canvas-area{flex:1;min-height:240px;border:2px dashed var(--border);border-radius:8px;padding:10px;overflow-y:auto;}
+.canvas-block{border:1px solid var(--border);border-radius:6px;padding:9px;margin-bottom:7px;background:var(--card);position:relative;font-size:12px;color:var(--text);}
+.canvas-block:hover{border-color:var(--accent);}
+.del-btn{position:absolute;top:5px;right:5px;width:18px;height:18px;background:var(--danger);border:none;border-radius:4px;cursor:pointer;color:#fff;font-size:10px;display:flex;align-items:center;justify-content:center;}
+.canvas-empty{display:flex;align-items:center;justify-content:center;height:180px;color:var(--text3);font-size:12px;text-align:center;}
+
+/* Contacts */
+.contact-grid{display:grid;grid-template-columns:200px 1fr;border:1px solid var(--border);border-radius:9px;overflow:hidden;min-height:300px;}
+.contact-sidebar{background:var(--toolbar-bg);border-right:1px solid var(--border);}
+.cs-head{padding:9px 12px;border-bottom:1px solid var(--border);font-size:11px;font-weight:700;color:var(--text2);display:flex;justify-content:space-between;align-items:center;}
+.group-item{padding:8px 12px;cursor:pointer;font-size:12px;color:var(--text2);border-bottom:1px solid var(--border);display:flex;justify-content:space-between;align-items:center;transition:background 0.1s;}
+.group-item:hover{background:var(--hover);}
+.group-item.active{background:var(--tag-bg);color:var(--accent);font-weight:600;}
+.contact-main{padding:12px;display:flex;flex-direction:column;gap:10px;}
+.contact-list{overflow-y:auto;max-height:220px;display:flex;flex-direction:column;gap:2px;}
+.contact-row{display:flex;align-items:center;gap:8px;padding:6px 4px;border-bottom:1px solid var(--border);font-size:12px;}
+.avatar{width:28px;height:28px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:700;flex-shrink:0;}
+
+/* SMTP */
+.smtp-item{background:var(--card);border:1px solid var(--border);border-radius:8px;padding:11px 13px;display:flex;align-items:center;gap:11px;}
+.smtp-num{width:26px;height:26px;border-radius:50%;background:var(--accent);color:#fff;display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:700;flex-shrink:0;}
+
+/* Validator */
+.val-row{display:flex;align-items:center;gap:9px;padding:6px 10px;border-radius:6px;font-size:12px;margin-bottom:4px;}
+.val-row.ok{background:#dcfce7;color:#166534;}
+.val-row.bad{background:#fee2e2;color:#991b1b;}
+.val-row.dup{background:#fef3c7;color:#92400e;}
+[data-theme="dark"] .val-row.ok{background:#14532d;color:#86efac;}
+[data-theme="dark"] .val-row.bad{background:#7f1d1d;color:#fca5a5;}
+[data-theme="dark"] .val-row.dup{background:#78350f;color:#fcd34d;}
+
+/* Analytics */
+.chart-wrap{background:var(--card);border:1px solid var(--border);border-radius:9px;padding:13px;}
+.chart-title{font-size:11px;font-weight:700;color:var(--text2);margin-bottom:10px;text-transform:uppercase;letter-spacing:0.04em;}
+.bar-chart{display:flex;align-items:flex-end;gap:5px;height:90px;}
+.bar-col{display:flex;flex-direction:column;align-items:center;gap:3px;flex:1;}
+.bar{width:100%;border-radius:3px 3px 0 0;}
+.bar-lbl{font-size:9px;color:var(--text3);}
+.bar-val{font-size:9px;color:var(--text2);font-weight:600;}
+.tl-row{display:flex;align-items:center;gap:9px;margin-bottom:7px;font-size:12px;}
+.tl-bar-bg{flex:1;background:var(--progress-bg);border-radius:4px;height:7px;overflow:hidden;}
+.tl-fill{height:100%;border-radius:4px;}
+.tl-lbl{width:75px;color:var(--text2);text-align:right;font-size:11px;}
+.tl-val{width:36px;color:var(--text);font-weight:600;font-size:11px;}
+
+/* AB Test */
+.ab-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px;}
+.ab-card{border:1px solid var(--border);border-radius:9px;padding:13px;background:var(--card);}
+.ab-head{font-size:12px;font-weight:700;margin-bottom:10px;display:flex;align-items:center;gap:7px;}
+.ab-winner{border-color:var(--success);}
+
+/* Mobile preview */
+.phone-frame{width:220px;border:8px solid #1a1a2e;border-radius:28px;overflow:hidden;margin:0 auto;box-shadow:0 4px 24px rgba(0,0,0,0.2);}
+.phone-notch{background:#1a1a2e;height:20px;display:flex;align-items:center;justify-content:center;}
+.phone-notch-dot{width:50px;height:8px;background:#333;border-radius:4px;}
+.phone-screen{background:#fff;min-height:380px;padding:12px;font-size:11px;line-height:1.6;color:#222;overflow-y:auto;}
+
+/* Spam checker */
+.spam-score-wrap{display:flex;align-items:center;gap:16px;margin:12px 0;}
+.spam-meter{width:100%;height:14px;background:linear-gradient(90deg,#16a34a,#d97706,#dc2626);border-radius:7px;position:relative;}
+.spam-needle{position:absolute;top:-4px;width:4px;height:22px;background:#1a1a2e;border-radius:2px;transition:left 0.6s;transform:translateX(-50%);}
+.spam-issues{display:flex;flex-direction:column;gap:6px;margin-top:10px;}
+.spam-issue{display:flex;align-items:center;gap:8px;font-size:12px;padding:7px 10px;border-radius:6px;}
+.spam-issue.bad{background:#fee2e2;color:#991b1b;}
+.spam-issue.warn{background:#fef3c7;color:#92400e;}
+.spam-issue.ok{background:#dcfce7;color:#166534;}
+[data-theme="dark"] .spam-issue.bad{background:#7f1d1d;color:#fca5a5;}
+[data-theme="dark"] .spam-issue.warn{background:#78350f;color:#fcd34d;}
+[data-theme="dark"] .spam-issue.ok{background:#14532d;color:#86efac;}
+
+/* Follow-up */
+.fu-rule{background:var(--card);border:1px solid var(--border);border-radius:8px;padding:11px 13px;display:flex;align-items:center;gap:10px;margin-bottom:8px;font-size:12px;}
+.fu-num{width:24px;height:24px;border-radius:50%;background:var(--accent);color:#fff;display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:700;flex-shrink:0;}
+
+/* History */
+.history-row{display:flex;align-items:center;gap:10px;padding:10px 12px;border-bottom:1px solid var(--border);font-size:12px;cursor:pointer;transition:background 0.1s;}
+.history-row:hover{background:var(--hover);}
+.history-name{flex:1;font-weight:600;color:var(--text);}
+.history-meta{font-size:11px;color:var(--text3);}
+
+/* Unsubscribe */
+.unsub-row{display:flex;align-items:center;gap:9px;padding:7px 10px;background:#fee2e2;border-radius:6px;font-size:12px;margin-bottom:5px;}
+[data-theme="dark"] .unsub-row{background:#7f1d1d;}
+
+/* Schedule */
+.sch-item{background:var(--card);border:1px solid var(--border);border-radius:8px;padding:10px 13px;display:flex;align-items:center;gap:10px;margin-bottom:7px;font-size:12px;}
+.sch-icon{width:28px;height:28px;background:var(--tag-bg);border-radius:6px;display:flex;align-items:center;justify-content:center;flex-shrink:0;}
+
+/* Textarea */
+textarea{width:100%;padding:9px 10px;border:1px solid var(--input-border);border-radius:6px;font-size:13px;background:var(--input-bg);color:var(--text);font-family:inherit;resize:vertical;}
+textarea:focus{outline:none;border-color:var(--accent);}
+input[type=file]{display:none;}
+.divider{height:1px;background:var(--border);}
+
+/* Test email modal area */
+.test-modal{background:var(--card);border:1px solid var(--border);border-radius:10px;padding:16px;margin-top:10px;}
+</style>
+</head>
+<body>
+<div class="app" id="app">
+
+<!-- SIDEBAR -->
+<div class="sidebar">
+  <div class="sidebar-logo">
+    <div class="sidebar-logo-title">✉ MailBlaster</div>
+    <div class="sidebar-logo-sub">Ultimate Edition</div>
+  </div>
+  <div class="sidebar-nav">
+    <div class="nav-group-label">Compose</div>
+    <div class="nav-item active" onclick="nav(&#39;compose&#39;,this)"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 20h9"></path><path d="M16.5 3.5a2.121 2.121 0 013 3L7 19l-4 1 1-4L16.5 3.5z"></path></svg>Message</div>
+    <div class="nav-item" onclick="nav(&#39;builder&#39;,this)"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="7" height="7"></rect><rect x="14" y="3" width="7" height="7"></rect><rect x="14" y="14" width="7" height="7"></rect><rect x="3" y="14" width="7" height="7"></rect></svg>HTML Builder</div>
+    <div class="nav-item" onclick="nav(&#39;templates&#39;,this)"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"></path><polyline points="14 2 14 8 20 8"></polyline></svg>Templates</div>
+    <div class="nav-group-label">Audience</div>
+    <div class="nav-item" onclick="nav(&#39;recipients&#39;,this)"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M17 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2"></path><circle cx="9" cy="7" r="4"></circle><path d="M23 21v-2a4 4 0 00-3-3.87"></path><path d="M16 3.13a4 4 0 010 7.75"></path></svg>Recipients</div>
+    <div class="nav-item" onclick="nav(&#39;contacts&#39;,this)"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 21v-2a4 4 0 00-4-4H8a4 4 0 00-4 4v2"></path><circle cx="12" cy="7" r="4"></circle></svg>Contacts</div>
+    <div class="nav-item" onclick="nav(&#39;unsubscribe&#39;,this)"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"></circle><line x1="15" y1="9" x2="9" y2="15"></line><line x1="9" y1="9" x2="15" y2="15"></line></svg>Unsubscribe</div>
+    <div class="nav-group-label">Sending</div>
+    <div class="nav-item" onclick="nav(&#39;smtp&#39;,this)"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="3" width="20" height="14" rx="2"></rect><line x1="8" y1="21" x2="16" y2="21"></line><line x1="12" y1="17" x2="12" y2="21"></line></svg>SMTP Accounts</div>
+    <div class="nav-item" onclick="nav(&#39;scheduler&#39;,this)"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="18" rx="2"></rect><line x1="16" y1="2" x2="16" y2="6"></line><line x1="8" y1="2" x2="8" y2="6"></line><line x1="3" y1="10" x2="21" y2="10"></line></svg>Scheduler</div>
+    <div class="nav-item" onclick="nav(&#39;followup&#39;,this)"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="23 4 23 10 17 10"></polyline><path d="M20.49 15a9 9 0 11-2.12-9.36L23 10"></path></svg>Auto Follow-up</div>
+    <div class="nav-item" onclick="nav(&#39;delivery&#39;,this)"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="22" y1="2" x2="11" y2="13"></line><polygon points="22 2 15 22 11 13 2 9 22 2"></polygon></svg>Delivery</div>
+    <div class="nav-group-label">Insights</div>
+    <div class="nav-item" onclick="nav(&#39;analytics&#39;,this)"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="20" x2="18" y2="10"></line><line x1="12" y1="20" x2="12" y2="4"></line><line x1="6" y1="20" x2="6" y2="14"></line></svg>Analytics</div>
+    <div class="nav-item" onclick="nav(&#39;history&#39;,this)"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"></circle><polyline points="12 6 12 12 16 14"></polyline></svg>Campaign History</div>
+    <div class="nav-group-label">Tools</div>
+    <div class="nav-item" onclick="nav(&#39;validator&#39;,this)"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 11.08V12a10 10 0 11-5.93-9.14"></path><polyline points="22 4 12 14.01 9 11.01"></polyline></svg>Validator</div>
+    <div class="nav-item" onclick="nav(&#39;spam&#39;,this)"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"></circle><line x1="12" y1="8" x2="12" y2="12"></line><line x1="12" y1="16" x2="12.01" y2="16"></line></svg>Spam Checker</div>
+    <div class="nav-item" onclick="nav(&#39;abtest&#39;,this)"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="3" y1="12" x2="21" y2="12"></line><line x1="3" y1="6" x2="21" y2="6"></line><line x1="3" y1="18" x2="21" y2="18"></line></svg>A/B Testing</div>
+    <div class="nav-item" onclick="nav(&#39;preview&#39;,this)"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="5" y="2" width="14" height="20" rx="2"></rect><line x1="12" y1="18" x2="12.01" y2="18"></line></svg>Mobile Preview</div>
+  </div>
+  <div class="sidebar-bottom">
+    <div class="dark-toggle" onclick="toggleDark()">
+      <div class="toggle-pill"></div>
+      <span id="dark-label">Light mode</span>
+    </div>
+  </div>
+</div>
+
+<!-- MAIN AREA -->
+<div class="main">
+  <div class="topbar">
+    <button class="tb-btn send" onclick="startSend()"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="22" y1="2" x2="11" y2="13"></line><polygon points="22 2 15 22 11 13 2 9 22 2"></polygon></svg>Send</button>
+    <button class="tb-btn warning" onclick="pauseSend()"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="6" y="4" width="4" height="16"></rect><rect x="14" y="4" width="4" height="16"></rect></svg>Pause</button>
+    <button class="tb-btn danger" onclick="stopSend()"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="18" height="18" rx="2"></rect></svg>Stop</button>
+    <div class="tb-sep"></div>
+    <button class="tb-btn" onclick="sendTestEmail()"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"></path><polyline points="22,6 12,13 2,6"></polyline></svg>Test Email</button>
+    <button class="tb-btn" onclick="checkSpam()"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"></circle><line x1="12" y1="8" x2="12" y2="12"></line><line x1="12" y1="16" x2="12.01" y2="16"></line></svg>Spam Check</button>
+    <button class="tb-btn" onclick="document.getElementById(&#39;csv-in&#39;).click()"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4"></path><polyline points="17 8 12 3 7 8"></polyline><line x1="12" y1="3" x2="12" y2="15"></line></svg>Import</button>
+    <button class="tb-btn" onclick="exportList()"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4"></path><polyline points="7 16 12 21 17 16"></polyline><line x1="12" y1="21" x2="12" y2="9"></line></svg>Export</button>
+    <button class="tb-btn" onclick="resetAll()"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="23 4 23 10 17 10"></polyline><path d="M20.49 15a9 9 0 11-2.12-9.36L23 10"></path></svg>Reset</button>
+    <input type="file" id="csv-in" accept=".csv,.txt" onchange="handleCSV(event)">
+  </div>
+  <div class="statusbar"><span class="sdot" id="sdot" style="background: var(--success);"></span><span id="stxt">Idle — ready to send</span><span style="margin-left:auto;font-size:10px;color:var(--text3);" id="smtp-lbl">1 SMTP account(s)</span></div>
+
+  <!-- ===== COMPOSE ===== -->
+  <div id="p-compose" class="panel active">
+    <div class="sec">Sender info</div>
+    <div class="fr"><label>From name</label><input id="from-name" placeholder="Your Name or Company"></div>
+    <div class="fr"><label>From email</label><input type="email" id="from-email" placeholder="you@yourdomain.com"></div>
+    <div class="fr"><label>Reply-To</label><input type="email" id="reply-to" placeholder="replies@yourdomain.com"></div>
+    <div class="sec">Email content</div>
+    <div class="fr"><label>Subject</label><input id="subject" placeholder="Subject — use {name},{company},{city} for personalization"></div>
+    <div class="fr" style="align-items:flex-start;"><label style="padding-top:8px;">Body</label><textarea id="body" style="min-height:180px;" placeholder="Write your email body here...
+
+Tags: {name} {email} {company} {city} {unsubscribe}"></textarea></div>
+    <div class="note">Personalization: <strong>{name}</strong> · <strong>{email}</strong> · <strong>{company}</strong> · <strong>{city}</strong> · <strong>{unsubscribe}</strong> (always include unsubscribe link)</div>
+  </div>
+
+  <!-- ===== HTML BUILDER ===== -->
+  <div id="p-builder" class="panel">
+    <div class="row"><span style="font-weight:600;font-size:14px;color:var(--text);">HTML email builder</span><button class="btn sm" onclick="previewHTML()">Preview</button><button class="btn sm primary" onclick="useHTMLInCompose()">Use template</button><button class="btn sm danger" onclick="clearCanvas()">Clear</button></div>
+    <div class="builder-wrap">
+      <div class="blocks-panel">
+        <div class="block-lbl">Add blocks</div>
+        <div class="block-item" onclick="addBlock(&#39;header&#39;)"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 6h16M4 10h8"></path></svg>Header</div>
+        <div class="block-item" onclick="addBlock(&#39;greeting&#39;)"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20.84 4.61a5.5 5.5 0 00-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 00-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 000-7.78z"></path></svg>Greeting</div>
+        <div class="block-item" onclick="addBlock(&#39;text&#39;)"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="17" y1="10" x2="3" y2="10"></line><line x1="21" y1="6" x2="3" y2="6"></line><line x1="21" y1="14" x2="3" y2="14"></line><line x1="17" y1="18" x2="3" y2="18"></line></svg>Paragraph</div>
+        <div class="block-item" onclick="addBlock(&#39;button&#39;)"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="8" width="18" height="8" rx="3"></rect></svg>Button</div>
+        <div class="block-item" onclick="addBlock(&#39;image&#39;)"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="18" height="18" rx="2"></rect><circle cx="8.5" cy="8.5" r="1.5"></circle><polyline points="21 15 16 10 5 21"></polyline></svg>Image</div>
+        <div class="block-item" onclick="addBlock(&#39;divider&#39;)"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="3" y1="12" x2="21" y2="12"></line></svg>Divider</div>
+        <div class="block-item" onclick="addBlock(&#39;social&#39;)"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="18" cy="5" r="3"></circle><circle cx="6" cy="12" r="3"></circle><circle cx="18" cy="19" r="3"></circle><line x1="8.59" y1="13.51" x2="15.42" y2="17.49"></line><line x1="15.41" y1="6.51" x2="8.59" y2="10.49"></line></svg>Social links</div>
+        <div class="block-item" onclick="addBlock(&#39;footer&#39;)"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 18h16M4 14h8"></path></svg>Footer</div>
+      </div>
+      <div class="canvas-panel">
+        <div class="canvas-title">Email canvas</div>
+        <div class="canvas-area" id="canvas-area"><div class="canvas-empty" id="canvas-empty">Click blocks on the left to build your email</div></div>
+      </div>
+    </div>
+    <div id="html-preview-box" style="display:none;margin-top:10px;border:1px solid var(--border);border-radius:8px;overflow:hidden;">
+      <div style="background:var(--toolbar-bg);padding:6px 12px;font-size:10px;color:var(--text3);border-bottom:1px solid var(--border);">Preview</div>
+      <div id="html-preview-content" style="background:#fff;padding:18px;font-family:Georgia,serif;font-size:13px;line-height:1.7;color:#222;"></div>
+    </div>
+  </div>
+
+  <!-- ===== TEMPLATES ===== -->
+  <div id="p-templates" class="panel">
+    <div style="font-weight:600;font-size:14px;color:var(--text);">Email templates library</div>
+    <div class="tpl-grid" id="tpl-grid"><div class="tpl-card"><div class="tpl-thumb" style="background:#e8f4fd;"><p style="font-weight:700;margin:0 0 4px;font-size:11px;">Welcome to {company}, {name}!...</p><p style="margin:0;font-size:10px;color:#555;line-height:1.5;">Hi {name},
+
+Welcome aboard! We're thrilled to have you with us.
+
+Here's what you...</p></div><div class="tpl-foot"><div class="tpl-name">Welcome email</div><div class="tpl-type">Onboarding</div></div></div><div class="tpl-card"><div class="tpl-thumb" style="background:#fff3e0;"><p style="font-weight:700;margin:0 0 4px;font-size:11px;">Special offer just for you, {name}!...</p><p style="margin:0;font-size:10px;color:#555;line-height:1.5;">Hi {name},
+
+We have an exclusive offer we didn't want you to miss.
+
+For a limite...</p></div><div class="tpl-foot"><div class="tpl-name">Promotional offer</div><div class="tpl-type">Sales</div></div></div><div class="tpl-card"><div class="tpl-thumb" style="background:#e8f5e9;"><p style="font-weight:700;margin:0 0 4px;font-size:11px;">Your weekly update from us...</p><p style="margin:0;font-size:10px;color:#555;line-height:1.5;">Hi {name},
+
+Here's your weekly roundup of what's happening.
+
+📌 Top story: [Your...</p></div><div class="tpl-foot"><div class="tpl-name">Newsletter</div><div class="tpl-type">Content</div></div></div><div class="tpl-card"><div class="tpl-thumb" style="background:#f3e5f5;"><p style="font-weight:700;margin:0 0 4px;font-size:11px;">Following up — {name}...</p><p style="margin:0;font-size:10px;color:#555;line-height:1.5;">Hi {name},
+
+I wanted to follow up on my previous email.
+
+I know you're busy, so ...</p></div><div class="tpl-foot"><div class="tpl-name">Follow-up</div><div class="tpl-type">Outreach</div></div></div><div class="tpl-card"><div class="tpl-thumb" style="background:#fce4ec;"><p style="font-weight:700;margin:0 0 4px;font-size:11px;">You're invited, {name}!...</p><p style="margin:0;font-size:10px;color:#555;line-height:1.5;">Hi {name},
+
+You're invited to our upcoming event!
+
+📅 Date: [Date here]
+⏰ Time: ...</p></div><div class="tpl-foot"><div class="tpl-name">Event invitation</div><div class="tpl-type">Event</div></div></div><div class="tpl-card"><div class="tpl-thumb" style="background:#e0f2f1;"><p style="font-weight:700;margin:0 0 4px;font-size:11px;">We miss you, {name}!...</p><p style="margin:0;font-size:10px;color:#555;line-height:1.5;">Hi {name},
+
+It's been a while since we heard from you, and we miss you!
+
+A lot h...</p></div><div class="tpl-foot"><div class="tpl-name">Re-engagement</div><div class="tpl-type">Retention</div></div></div></div>
+  </div>
+
+  <!-- ===== RECIPIENTS ===== -->
+  <div id="p-recipients" class="panel">
+    <div class="row"><span style="font-weight:600;color:var(--text);">Recipient list</span><span class="badge blue" id="rec-count">0 recipients</span></div>
+    <textarea id="recipients" style="min-height:160px;font-family:monospace;" placeholder="Paste emails here, one per line:
+john@example.com
+jane@example.com, Jane, Acme Corp, Lagos
+
+Format: email [, Name [, Company [, City]]]" oninput="updateCount()"></textarea>
+    <p style="font-size:11px;color:var(--text3);">One per line · Optional: <code>email, Name, Company, City</code></p>
+    <div class="row">
+      <button class="btn" onclick="document.getElementById(&#39;csv-in&#39;).click()"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4"></path><polyline points="17 8 12 3 7 8"></polyline><line x1="12" y1="3" x2="12" y2="15"></line></svg>Import CSV</button>
+      <button class="btn" onclick="validateEmails()">Validate</button>
+      <button class="btn" onclick="dedupeList()">Remove duplicates</button>
+      <button class="btn" onclick="removeUnsubbed()">Remove unsubscribed</button>
+      <button class="btn danger" onclick="clearRec()">Clear</button>
+    </div>
+  </div>
+
+  <!-- ===== CONTACTS ===== -->
+  <div id="p-contacts" class="panel">
+    <div class="row"><span style="font-weight:600;color:var(--text);">Contact manager</span><button class="btn sm primary" onclick="addGroup()">+ New group</button></div>
+    <div class="contact-grid">
+      <div class="contact-sidebar">
+        <div class="cs-head">Groups <span class="badge blue" id="grp-badge">2</span></div>
+        <div id="group-list"><div class="group-item active">All contacts <span class="badge blue">2</span></div><div class="group-item">Newsletter <span class="badge blue">1</span></div></div>
+      </div>
+      <div class="contact-main">
+        <div class="row"><span style="font-weight:600;font-size:12px;color:var(--text);" id="active-grp-name">All contacts</span><button class="btn sm" onclick="loadGroupToRecipients()">Load to recipients</button><button class="btn sm primary" onclick="addContact()">+ Add</button></div>
+        <div class="contact-list" id="contact-list"><div class="contact-row"><div class="avatar" style="background:#dbeafe;color:#1e40af;">A</div><div style="flex:1;"><div style="font-weight:600;font-size:12px;color:var(--text);">Alice</div><div style="font-size:11px;color:var(--text3);">alice@example.com · Acme</div></div><button class="btn sm danger" onclick="removeContact(&#39;alice@example.com&#39;)">Remove</button></div><div class="contact-row"><div class="avatar" style="background:#dcfce7;color:#166534;">B</div><div style="flex:1;"><div style="font-weight:600;font-size:12px;color:var(--text);">Bob</div><div style="font-size:11px;color:var(--text3);">bob@example.com · TechCo</div></div><button class="btn sm danger" onclick="removeContact(&#39;bob@example.com&#39;)">Remove</button></div></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ===== UNSUBSCRIBE ===== -->
+  <div id="p-unsubscribe" class="panel">
+    <div class="row"><span style="font-weight:600;color:var(--text);">Unsubscribe manager</span><span class="badge red" id="unsub-badge">0 unsubscribed</span></div>
+    <div class="stat-grid" style="grid-template-columns:repeat(3,1fr);">
+      <div class="stat-card"><div class="stat-num" id="unsub-total" style="color:var(--danger);">0</div><div class="stat-lbl">Total unsubscribed</div></div>
+      <div class="stat-card"><div class="stat-num" id="unsub-week" style="color:var(--warning);">0</div><div class="stat-lbl">This week</div></div>
+      <div class="stat-card"><div class="stat-num" id="unsub-rate" style="color:var(--accent);">0%</div><div class="stat-lbl">Unsub rate</div></div>
+    </div>
+    <div class="row"><input id="manual-unsub" style="flex:1;padding:7px 10px;border:1px solid var(--input-border);border-radius:6px;font-size:13px;background:var(--input-bg);color:var(--text);" placeholder="Add email to suppress list..."><button class="btn danger" onclick="manualUnsub()">Add</button><button class="btn" onclick="exportUnsub()">Export</button></div>
+    <div id="unsub-list"></div>
+  </div>
+
+  <!-- ===== SMTP ===== -->
+  <div id="p-smtp" class="panel">
+    <div class="row"><span style="font-weight:600;color:var(--text);">SMTP accounts</span><button class="btn sm primary" onclick="addSMTP()">+ Add account</button></div>
+    <p style="font-size:12px;color:var(--text2);">Multiple accounts rotate automatically to stay within daily limits.</p>
+    <div id="smtp-list" style="display:flex;flex-direction:column;gap:8px;margin-top:6px;"><div class="smtp-item"><div class="smtp-num">1</div><div style="flex:1;"><div style="font-weight:600;font-size:13px;color:var(--text);">smtp-relay.brevo.com:587 (TLS)</div><div style="font-size:11px;color:var(--text3);">you@yourdomain.com</div></div><span class="badge green">Active</span><button class="btn sm danger" onclick="removeSMTP(0)">Remove</button></div></div>
+    <div class="note" style="margin-top:10px;">Brevo: <code>smtp-relay.brevo.com</code> · Port <code>587</code> · TLS · your Brevo email + SMTP key</div>
+  </div>
+
+  <!-- ===== SCHEDULER ===== -->
+  <div id="p-scheduler" class="panel">
+    <div style="font-weight:600;color:var(--text);">Schedule a campaign</div>
+    <div style="background:var(--card);border:1px solid var(--border);border-radius:9px;padding:14px;display:flex;flex-direction:column;gap:10px;">
+      <div class="fr"><label>Campaign name</label><input id="sch-name" placeholder="e.g. Weekly newsletter"></div>
+      <div class="fr"><label>Send date</label><input type="date" id="sch-date"></div>
+      <div class="fr"><label>Send time</label><input type="time" id="sch-time" value="09:00"></div>
+      <div class="fr"><label>Recipients</label><select id="sch-group" style="flex:1;padding:7px 10px;border:1px solid var(--input-border);border-radius:6px;font-size:13px;background:var(--input-bg);color:var(--text);"><option>Current recipient list</option></select></div>
+      <button class="btn primary" style="align-self:flex-start;" onclick="scheduleCampaign()"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="18" rx="2"></rect><line x1="3" y1="10" x2="21" y2="10"></line></svg>Schedule</button>
+    </div>
+    <div id="sch-list" style="display:flex;flex-direction:column;gap:0;"><div style="color:var(--text3);font-size:12px;padding:10px 0;">No campaigns scheduled yet.</div></div>
+  </div>
+
+  <!-- ===== FOLLOW-UP ===== -->
+  <div id="p-followup" class="panel">
+    <div class="row"><span style="font-weight:600;color:var(--text);">Auto follow-up rules</span><button class="btn sm primary" onclick="addFollowup()">+ Add rule</button></div>
+    <p style="font-size:12px;color:var(--text2);">Automatically send a follow-up to recipients who didn't open your previous email.</p>
+    <div id="fu-list" style="margin-top:8px;"><div style="color:var(--text3);font-size:12px;padding:8px 0;">No follow-up rules yet. Click + Add rule.</div></div>
+    <div class="note">Tip: Follow-up emails get 20-30% more opens. Keep them short and change the subject line.</div>
+  </div>
+
+  <!-- ===== DELIVERY ===== -->
+  <div id="p-delivery" class="panel">
+    <div class="stat-grid" style="grid-template-columns:repeat(3,1fr);">
+      <div class="stat-card"><div class="stat-num" id="d-total" style="color:var(--accent);">0</div><div class="stat-lbl">Total</div></div>
+      <div class="stat-card"><div class="stat-num" id="d-sent" style="color:var(--success);">0</div><div class="stat-lbl">Sent</div></div>
+      <div class="stat-card"><div class="stat-num" id="d-failed" style="color:var(--danger);">0</div><div class="stat-lbl">Failed</div></div>
+    </div>
+    <div class="row" style="font-size:12px;color:var(--text2);">
+      <span>Remaining: <strong id="d-remaining">0</strong></span>
+      <span>Status: <strong id="d-status">Idle</strong></span>
+      <span>Speed: <strong id="d-speed">—</strong></span>
+    </div>
+    <div class="prog-wrap" id="prog-wrap"><div class="prog-bg"><div class="prog-fill" id="prog-fill"></div></div><div class="prog-txt" id="prog-txt">0%</div></div>
+    <div class="log-box" id="log-box"></div>
+    <div class="divider"></div>
+    <div class="fr"><label>Delay (ms)</label><div style="display:flex;gap:8px;align-items:center;flex:1;"><input type="number" id="delay" value="500" min="0" style="width:90px;padding:7px 10px;border:1px solid var(--input-border);border-radius:6px;font-size:13px;background:var(--input-bg);color:var(--text);"><span style="font-size:11px;color:var(--text3);">between emails (500ms recommended)</span></div></div>
+    <div class="fr"><label>Group mode</label><select id="grp-mode" style="flex:1;padding:7px 10px;border:1px solid var(--input-border);border-radius:6px;font-size:13px;background:var(--input-bg);color:var(--text);"><option>Singly (safest)</option><option>10 per batch</option><option>50 per batch</option><option>All at once</option></select></div>
+    <div style="display:flex;align-items:center;gap:10px;font-size:12px;color:var(--text);margin-left:120px;"><input type="checkbox" id="track-opens"><label>Track opens</label><input type="checkbox" id="track-clicks" style="margin-left:8px;"><label>Track clicks</label></div>
+  </div>
+
+  <!-- ===== ANALYTICS ===== -->
+  <div id="p-analytics" class="panel">
+    <div class="row"><span style="font-weight:600;color:var(--text);">Campaign analytics</span><button class="btn sm" onclick="refreshAnalytics()">Refresh</button></div>
+    <div class="stat-grid">
+      <div class="stat-card"><div class="stat-num" id="an-sent" style="color:var(--accent);">0</div><div class="stat-lbl">Sent</div></div>
+      <div class="stat-card"><div class="stat-num" id="an-open" style="color:var(--success);">—</div><div class="stat-lbl">Open rate</div></div>
+      <div class="stat-card"><div class="stat-num" id="an-click" style="color:var(--warning);">—</div><div class="stat-lbl">Click rate</div></div>
+      <div class="stat-card"><div class="stat-num" id="an-bounce" style="color:var(--danger);">—</div><div class="stat-lbl">Bounce rate</div></div>
+    </div>
+    <div class="chart-wrap"><div class="chart-title">Sends per day — last 7 days</div><div class="bar-chart" id="bar-chart"></div></div>
+    <div class="chart-wrap"><div class="chart-title">Engagement breakdown</div><div id="engage-chart"></div></div>
+  </div>
+
+  <!-- ===== HISTORY ===== -->
+  <div id="p-history" class="panel">
+    <div class="row"><span style="font-weight:600;color:var(--text);">Campaign history</span><button class="btn sm danger" onclick="clearHistory()">Clear all</button></div>
+    <div id="history-list" style="border:1px solid var(--border);border-radius:9px;overflow:hidden;"><div style="padding:16px;color:var(--text3);font-size:13px;text-align:center;">No campaigns sent yet — history appears here after sending.</div></div>
+  </div>
+
+  <!-- ===== VALIDATOR ===== -->
+  <div id="p-validator" class="panel">
+    <div style="font-weight:600;color:var(--text);">Email validator</div>
+    <p style="font-size:12px;color:var(--text2);">Scans your recipient list for invalid, duplicate, and disposable emails before you send.</p>
+    <div class="row"><button class="btn primary" onclick="validateEmails()"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 11.08V12a10 10 0 11-5.93-9.14"></path><polyline points="22 4 12 14.01 9 11.01"></polyline></svg>Validate now</button><button class="btn" onclick="removeInvalid()">Remove invalid</button></div>
+    <div class="row" id="val-summary"></div>
+    <div id="val-results" style="max-height:220px;overflow-y:auto;"></div>
+  </div>
+
+  <!-- ===== SPAM CHECKER ===== -->
+  <div id="p-spam" class="panel">
+    <div style="font-weight:600;color:var(--text);">Spam score checker</div>
+    <p style="font-size:12px;color:var(--text2);">Checks your email content for patterns that trigger spam filters before sending.</p>
+    <button class="btn primary" onclick="checkSpam()"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"></circle><line x1="12" y1="8" x2="12" y2="12"></line><line x1="12" y1="16" x2="12.01" y2="16"></line></svg>Check now</button>
+    <div id="spam-result" style="display:none;">
+      <div style="font-size:13px;color:var(--text2);margin-bottom:6px;">Spam score: <strong id="spam-score-text">—</strong></div>
+      <div class="spam-score-wrap"><div class="spam-meter"><div class="spam-needle" id="spam-needle"></div></div></div>
+      <div class="spam-issues" id="spam-issues"></div>
+    </div>
+  </div>
+
+  <!-- ===== A/B TEST ===== -->
+  <div id="p-abtest" class="panel">
+    <div style="font-weight:600;color:var(--text);">A/B split testing</div>
+    <p style="font-size:12px;color:var(--text2);">Test two different subject lines or messages. The winner gets sent to the rest of your list.</p>
+    <div class="ab-grid">
+      <div class="ab-card" id="ab-a">
+        <div class="ab-head"><span style="background:var(--accent);color:#fff;width:22px;height:22px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:700;">A</span>Version A</div>
+        <div style="display:flex;flex-direction:column;gap:8px;">
+          <input id="ab-subject-a" style="width:100%;padding:7px 10px;border:1px solid var(--input-border);border-radius:6px;font-size:13px;background:var(--input-bg);color:var(--text);" placeholder="Subject line A">
+          <textarea id="ab-body-a" style="min-height:100px;font-size:12px;" placeholder="Email body A (optional — leave blank to only test subject)"></textarea>
+          <div style="font-size:11px;color:var(--text3);">Send to: <strong id="ab-a-pct">50%</strong> of list</div>
+          <div id="ab-a-result" style="display:none;" class="badge green">Opens: 0%</div>
+        </div>
+      </div>
+      <div class="ab-card" id="ab-b">
+        <div class="ab-head"><span style="background:var(--warning);color:#fff;width:22px;height:22px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:700;">B</span>Version B</div>
+        <div style="display:flex;flex-direction:column;gap:8px;">
+          <input id="ab-subject-b" style="width:100%;padding:7px 10px;border:1px solid var(--input-border);border-radius:6px;font-size:13px;background:var(--input-bg);color:var(--text);" placeholder="Subject line B">
+          <textarea id="ab-body-b" style="min-height:100px;font-size:12px;" placeholder="Email body B (optional)"></textarea>
+          <div style="font-size:11px;color:var(--text3);">Send to: <strong id="ab-b-pct">50%</strong> of list</div>
+          <div id="ab-b-result" style="display:none;" class="badge green">Opens: 0%</div>
+        </div>
+      </div>
+    </div>
+    <div class="row" style="margin-top:6px;">
+      <span style="font-size:12px;color:var(--text2);">Split ratio:</span>
+      <input type="range" id="ab-split" min="10" max="90" value="50" step="10" style="flex:1;" oninput="updateABSplit(this.value)">
+      <span style="font-size:12px;color:var(--text);min-width:60px;" id="ab-split-lbl">50 / 50</span>
+    </div>
+    <div class="row">
+      <button class="btn primary" onclick="runABTest()"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="5 3 19 12 5 21 5 3"></polygon></svg>Run A/B test</button>
+      <button class="btn" onclick="pickWinner()">Pick winner &amp; send to rest</button>
+    </div>
+    <div id="ab-winner-box" style="display:none;" class="note"></div>
+  </div>
+
+  <!-- ===== MOBILE PREVIEW ===== -->
+  <div id="p-preview" class="panel">
+    <div class="row"><span style="font-weight:600;color:var(--text);">Mobile preview</span><button class="btn sm primary" onclick="refreshMobilePreview()">Refresh</button></div>
+    <p style="font-size:12px;color:var(--text2);">See exactly how your email looks on a phone before sending.</p>
+    <div style="display:flex;gap:24px;align-items:flex-start;flex-wrap:wrap;">
+      <div>
+        <div style="font-size:10px;color:var(--text3);text-align:center;margin-bottom:6px;text-transform:uppercase;letter-spacing:0.06em;">Phone view</div>
+        <div class="phone-frame">
+          <div class="phone-notch"><div class="phone-notch-dot"></div></div>
+          <div class="phone-screen" id="phone-screen">
+            <div style="font-size:10px;color:#999;padding:8px 0 4px;">From: <strong id="prev-from-mob">—</strong></div>
+            <div style="font-size:11px;font-weight:700;color:#222;margin-bottom:8px;border-bottom:1px solid #eee;padding-bottom:6px;" id="prev-subject-mob">No subject</div>
+            <div id="prev-body-mob" style="font-size:11px;color:#333;line-height:1.6;white-space:pre-wrap;">Write a message to preview it here.</div>
+          </div>
+        </div>
+      </div>
+      <div style="flex:1;min-width:200px;">
+        <div style="font-size:11px;color:var(--text2);margin-bottom:8px;font-weight:600;">Desktop preview</div>
+        <div style="border:1px solid var(--border);border-radius:8px;overflow:hidden;">
+          <div style="background:var(--toolbar-bg);padding:6px 10px;font-size:10px;color:var(--text3);border-bottom:1px solid var(--border);">Inbox</div>
+          <div style="padding:14px;background:var(--card);">
+            <div style="font-size:11px;color:var(--text2);margin-bottom:3px;">From: <strong id="prev-from-desk">—</strong></div>
+            <div style="font-size:13px;font-weight:700;color:var(--text);margin-bottom:8px;padding-bottom:8px;border-bottom:1px solid var(--border);" id="prev-subject-desk">No subject</div>
+            <div id="prev-body-desk" style="font-size:13px;color:var(--text);line-height:1.7;white-space:pre-wrap;">Write a message to preview it here.</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</div><!-- end .main -->
+</div><!-- end .app -->
+
+<script>
+// ===== SERVER CONFIG — paste your Railway URL here =====
+const SERVER_URL = 'https://your-app.railway.app'; // ← replace this after deploying
+
+// ===== STATE =====
+let sending=false,paused=false,stopped=false,sentCount=0,failedCount=0,totalCount=0,startTime=null,sendInterval=null,currentSmtp=0;
+let darkMode=false;
+let canvasBlocks=[];
+let htmlBuilt='';
+let contacts={'All contacts':[{email:'alice@example.com',name:'Alice',company:'Acme',city:'Lagos'},{email:'bob@example.com',name:'Bob',company:'TechCo',city:'Abuja'}],'Newsletter':[{email:'alice@example.com',name:'Alice',company:'Acme',city:'Lagos'}]};
+let activeGroup='All contacts';
+let smtpAccounts=[{host:'smtp-relay.brevo.com',port:'587',ssl:'TLS',user:'you@yourdomain.com',pass:'',active:true}];
+let unsubList=[];
+let valResults=[];
+let schedules=[];
+let followupRules=[];
+let campaignHistory=[];
+let analyticsData={sent:0,daily:[14,28,52,19,73,41,55]};
+let abRunning=false;
+
+// ===== NAV =====
+function nav(name,el){
+  document.querySelectorAll('.panel').forEach(p=>p.classList.remove('active'));
+  document.querySelectorAll('.nav-item').forEach(n=>n.classList.remove('active'));
+  document.getElementById('p-'+name).classList.add('active');
+  el.classList.add('active');
+  if(name==='contacts')renderContacts();
+  if(name==='smtp')renderSMTP();
+  if(name==='analytics')refreshAnalytics();
+  if(name==='unsubscribe')renderUnsub();
+  if(name==='delivery')updateDelivUI();
+  if(name==='scheduler')renderSchedules();
+  if(name==='followup')renderFollowups();
+  if(name==='history')renderHistory();
+  if(name==='templates')renderTemplates();
+  if(name==='preview')refreshMobilePreview();
+}
+
+// ===== DARK MODE =====
+function toggleDark(){
+  darkMode=!darkMode;
+  document.getElementById('app').setAttribute('data-theme',darkMode?'dark':'');
+  document.getElementById('dark-label').textContent=darkMode?'Dark mode':'Light mode';
+}
+
+// ===== STATUS =====
+function setStatus(msg,color){document.getElementById('stxt').textContent=msg;document.getElementById('sdot').style.background=color||'var(--success)';}
+
+// ===== RECIPIENTS =====
+function getRecs(){return document.getElementById('recipients').value.split('\n').map(l=>l.trim()).filter(l=>l);}
+function updateCount(){document.getElementById('rec-count').textContent=getRecs().length+' recipients';}
+function parseRec(line){const p=line.split(',').map(s=>s.trim());return{email:p[0]||'',name:p[1]||p[0]||'',company:p[2]||'',city:p[3]||''};}
+function personalize(t,r){return t.replace(/{name}/g,r.name||r.email).replace(/{email}/g,r.email).replace(/{company}/g,r.company||'your company').replace(/{city}/g,r.city||'your city').replace(/{unsubscribe}/g,'<a href="#">Unsubscribe</a>');}
+
+// ===== SEND =====
+async function startSend(){
+  if(!smtpAccounts.length){alert('Add an SMTP account first (SMTP Accounts tab).');return;}
+  const subj=document.getElementById('subject').value.trim();
+  const body=htmlBuilt||document.getElementById('body').value.trim();
+  const fromEmail=document.getElementById('from-email').value.trim();
+  const fromName=document.getElementById('from-name').value.trim();
+  const recs=getRecs();
+  if(!subj||!body){alert('Please write a subject and body first (Message tab).');return;}
+  if(!fromEmail){alert('Please enter your From email address in the Message tab.');return;}
+  if(!recs.length){alert('Please add recipients first.');return;}
+
+  // Check server URL is set
+  if(SERVER_URL.includes('your-app.railway.app')){
+    const proceed=confirm('Server URL not set yet!\n\nThe app will simulate sending for now.\n\nAfter you deploy to Railway, paste your URL in the SERVER_URL line of the code.\n\nContinue in simulation mode?');
+    if(!proceed)return;
+    startSendSimulation(recs,subj,body,fromEmail,fromName);
+    return;
+  }
+
+  const clean=recs.filter(r=>!unsubList.includes(r.split(',')[0].trim().toLowerCase()));
+  if(clean.length<recs.length&&!confirm((recs.length-clean.length)+' unsubscribed recipients will be skipped. Continue with '+clean.length+'?'))return;
+
+  sending=true;paused=false;stopped=false;sentCount=0;failedCount=0;totalCount=clean.length;startTime=Date.now();
+  document.getElementById('prog-wrap').style.display='block';
+  document.getElementById('log-box').style.display='block';
+  nav('delivery',document.querySelectorAll('.nav-item')[10]);
+  setStatus('Sending to '+totalCount+' recipients via server...','var(--accent)');
+  document.getElementById('d-status').textContent='Sending';
+  log('Campaign started — '+totalCount+' recipients → '+SERVER_URL,'info');
+
+  const parsedRecs=clean.map(r=>parseRec(r));
+  const delay=parseInt(document.getElementById('delay').value)||500;
+  const isHTML=!!htmlBuilt;
+
+  try {
+    // Test server connection first
+    const test=await fetch(SERVER_URL+'/test');
+    if(!test.ok)throw new Error('Server not reachable');
+    const testData=await test.json();
+    if(!testData.brevo_key_set){
+      alert('Server is running but BREVO_API_KEY is not set on Railway.\n\nGo to Railway → your project → Variables → add BREVO_API_KEY.');
+      sending=false;return;
+    }
+    log('Server connected ✓ — starting bulk send','info');
+  } catch(e){
+    alert('Cannot reach server at:\n'+SERVER_URL+'\n\nMake sure your Railway app is running.');
+    sending=false;return;
+  }
+
+  // Send one by one with live progress
+  let i=0;
+  async function sendNext(){
+    if(stopped){finishSend('Stopped');return;}
+    if(i>=parsedRecs.length){finishSend('Complete');return;}
+    if(paused){setTimeout(sendNext,500);return;}
+
+    const rec=parsedRecs[i];
+    if(!rec.email.includes('@')||!rec.email.includes('.')){
+      failedCount++;log('✗ Invalid: '+rec.email,'err');
+    } else {
+      try{
+        const res=await fetch(SERVER_URL+'/send',{
+          method:'POST',
+          headers:{'Content-Type':'application/json'},
+          body:JSON.stringify({to:rec.email,toName:rec.name,from:fromEmail,fromName,subject:subj,message:body,isHTML})
+        });
+        const data=await res.json();
+        if(data.success){sentCount++;analyticsData.sent++;log('✓ Delivered → '+rec.email+(rec.name?' ('+rec.name+')':''),'ok');}
+        else{failedCount++;log('✗ Failed → '+rec.email+': '+(data.error||'unknown error'),'err');}
+      }catch(e){failedCount++;log('✗ Network error → '+rec.email,'err');}
+    }
+    i++;
+    const pct=Math.round((i/totalCount)*100);
+    document.getElementById('prog-fill').style.width=pct+'%';
+    document.getElementById('prog-txt').textContent=pct+'% ('+i+'/'+totalCount+')';
+    document.getElementById('d-sent').textContent=sentCount;
+    document.getElementById('d-failed').textContent=failedCount;
+    document.getElementById('d-remaining').textContent=Math.max(0,totalCount-i);
+    const elapsed=(Date.now()-startTime)/1000;
+    document.getElementById('d-speed').textContent=elapsed>0?Math.round(sentCount/elapsed*60)+'/min':'—';
+    setStatus('Sending '+i+'/'+totalCount+' ('+pct+'%)','var(--accent)');
+    setTimeout(sendNext,delay);
+  }
+  sendNext();
+}
+
+// Simulation mode (before Railway is set up)
+function startSendSimulation(recs,subj,body,fromEmail,fromName){
+  const clean=recs.filter(r=>!unsubList.includes(r.split(',')[0].trim().toLowerCase()));
+  sending=true;paused=false;stopped=false;sentCount=0;failedCount=0;totalCount=clean.length;startTime=Date.now();
+  document.getElementById('prog-wrap').style.display='block';
+  document.getElementById('log-box').style.display='block';
+  nav('delivery',document.querySelectorAll('.nav-item')[10]);
+  setStatus('Simulating send to '+totalCount+' recipients...','var(--warning)');
+  document.getElementById('d-status').textContent='Simulating';
+  log('⚠ SIMULATION MODE — deploy to Railway for real sending','warn');
+  const delay=parseInt(document.getElementById('delay').value)||500;
+  let i=0;
+  sendInterval=setInterval(()=>{
+    if(stopped){clearInterval(sendInterval);finishSend('Stopped');return;}
+    if(paused)return;
+    if(i>=clean.length){clearInterval(sendInterval);finishSend('Complete (Simulation)');return;}
+    const rec=parseRec(clean[i]);
+    if(rec.email.includes('@')&&rec.email.includes('.')){sentCount++;analyticsData.sent++;log('[SIM] ✓ '+rec.email+(rec.name?' ('+rec.name+')':''),'ok');}
+    else{failedCount++;log('[SIM] ✗ Invalid: '+rec.email,'err');}
+    i++;
+    const pct=Math.round((i/totalCount)*100);
+    document.getElementById('prog-fill').style.width=pct+'%';
+    document.getElementById('prog-txt').textContent=pct+'% ('+i+'/'+totalCount+')';
+    document.getElementById('d-sent').textContent=sentCount;
+    document.getElementById('d-failed').textContent=failedCount;
+    document.getElementById('d-remaining').textContent=Math.max(0,totalCount-i);
+    setStatus('[SIM] Sending '+i+'/'+totalCount,'var(--warning)');
+    i++;
+    i--;i++;
+  },delay);
+}
+
+function finishSend(reason){
+  sending=false;
+  document.getElementById('d-status').textContent=reason;
+  setStatus(reason+' — Sent: '+sentCount+' | Failed: '+failedCount,reason==='Complete'?'var(--success)':'var(--danger)');
+  log('--- '+reason+'. Sent: '+sentCount+' | Failed: '+failedCount,'info');
+  analyticsData.daily[6]+=sentCount;
+  if(reason==='Complete'){
+    campaignHistory.unshift({name:document.getElementById('subject').value||'Untitled',date:new Date().toLocaleDateString(),time:new Date().toLocaleTimeString(),sent:sentCount,failed:failedCount,recipients:totalCount});
+    if(campaignHistory.length>20)campaignHistory.pop();
+  }
+}
+
+function pauseSend(){if(!sending){alert('Nothing is sending.');return;}paused=!paused;if(paused){setStatus('Paused','var(--warning)');log('Paused','warn');}else{setStatus('Resumed...','var(--accent)');log('Resumed','info');}}
+function stopSend(){if(!sending){alert('Nothing is sending.');return;}stopped=true;sending=false;clearInterval(sendInterval);finishSend('Stopped');}
+function updateDelivUI(){document.getElementById('d-total').textContent=totalCount||getRecs().length;document.getElementById('d-remaining').textContent=Math.max(0,totalCount-sentCount-failedCount)||getRecs().length;}
+
+// ===== LOG =====
+function log(msg,type){const b=document.getElementById('log-box');b.style.display='block';const l=document.createElement('div');l.className='ll '+(type||'info');l.textContent='['+new Date().toLocaleTimeString()+'] '+msg;b.appendChild(l);b.scrollTop=b.scrollHeight;}
+
+// ===== TEST EMAIL =====
+async function sendTestEmail(){
+  const subj=document.getElementById('subject').value.trim()||'Test email from Mail Blaster';
+  const body=document.getElementById('body').value.trim()||'This is a test email from Mail Blaster Ultimate!';
+  const from=document.getElementById('from-email').value.trim();
+  const fromName=document.getElementById('from-name').value.trim();
+  if(!from){alert('Enter your From email address in the Message tab first.');return;}
+  const testAddr=prompt('Send test email to:',from);
+  if(!testAddr||!testAddr.includes('@'))return;
+
+  if(SERVER_URL.includes('your-app.railway.app')){
+    alert('Server not set up yet!\n\nDeploy to Railway first, then paste your URL in the SERVER_URL line.\n\nFor now this is just a simulation.');
+    setStatus('Test simulated (no server yet)','var(--warning)');
+    return;
+  }
+
+  setStatus('Sending test to '+testAddr+'...','var(--info)');
+  try{
+    const res=await fetch(SERVER_URL+'/send',{
+      method:'POST',
+      headers:{'Content-Type':'application/json'},
+      body:JSON.stringify({to:testAddr,toName:'Test',from,fromName,subject:'[TEST] '+subj,message:body,isHTML:!!htmlBuilt})
+    });
+    const data=await res.json();
+    if(data.success){
+      setStatus('Test email delivered to '+testAddr+' ✓','var(--success)');
+      alert('Test email sent successfully to '+testAddr+'!\n\nCheck your inbox now.');
+    } else {
+      setStatus('Test email failed','var(--danger)');
+      alert('Failed to send test email.\n\nError: '+(data.error||'Unknown error')+'\n\nCheck your Brevo API key on Railway.');
+    }
+  }catch(e){
+    setStatus('Server not reachable','var(--danger)');
+    alert('Cannot reach server at:\n'+SERVER_URL+'\n\nMake sure Railway app is running.');
+  }
+}
+
+// ===== HTML BUILDER =====
+const blockTpls={
+  header:`<div style="background:#1a1a2e;color:#fff;padding:20px;text-align:center;"><h2 style="margin:0;font-size:20px;">Your Company</h2><p style="margin:5px 0 0;opacity:0.7;font-size:12px;">Newsletter</p></div>`,
+  greeting:`<div style="padding:14px 0;"><p style="margin:0;font-size:15px;">Hi <strong>{name}</strong>,</p><p style="margin:8px 0 0;font-size:14px;color:#555;line-height:1.7;">Thank you for being part of our community. We have exciting news to share with you.</p></div>`,
+  text:`<div style="padding:10px 0;"><p style="margin:0;font-size:14px;color:#333;line-height:1.7;">Add your paragraph text here. Be clear, concise, and valuable to your reader.</p></div>`,
+  button:`<div style="text-align:center;padding:14px 0;"><a href="#" style="background:#2563eb;color:#fff;padding:11px 26px;border-radius:6px;text-decoration:none;font-size:14px;font-weight:600;display:inline-block;">Call to Action</a></div>`,
+  image:`<div style="background:#f0f0f0;border:2px dashed #ccc;border-radius:6px;padding:28px;text-align:center;color:#aaa;font-size:12px;">[ Image — replace src with your image URL ]</div>`,
+  divider:`<hr style="border:none;border-top:1px solid #eee;margin:10px 0;">`,
+  social:`<div style="text-align:center;padding:10px 0;font-size:12px;color:#666;">Follow us: <a href="#" style="color:#2563eb;text-decoration:none;margin:0 6px;">Twitter</a> <a href="#" style="color:#2563eb;text-decoration:none;margin:0 6px;">LinkedIn</a> <a href="#" style="color:#2563eb;text-decoration:none;margin:0 6px;">Instagram</a></div>`,
+  footer:`<div style="background:#f9f9f9;padding:14px;text-align:center;border-top:1px solid #eee;font-size:11px;color:#888;"><p style="margin:0;">You're receiving this because you subscribed.</p><p style="margin:5px 0 0;">{unsubscribe} · Our Company, Lagos, Nigeria</p></div>`,
+};
+
+function addBlock(type){canvasBlocks.push({type,html:blockTpls[type]});renderCanvas();}
+function renderCanvas(){
+  const ca=document.getElementById('canvas-area');
+  const emp=document.getElementById('canvas-empty');
+  if(!canvasBlocks.length){ca.innerHTML='';ca.appendChild(emp);emp.style.display='flex';return;}
+  ca.innerHTML='';
+  canvasBlocks.forEach((b,i)=>{
+    const d=document.createElement('div');d.className='canvas-block';
+    d.innerHTML=b.html+`<button class="del-btn" onclick="delBlock(${i})">✕</button>`;ca.appendChild(d);
+  });
+  buildHTML();
+}
+function delBlock(i){canvasBlocks.splice(i,1);renderCanvas();}
+function clearCanvas(){if(confirm('Clear canvas?')){canvasBlocks=[];renderCanvas();}}
+function buildHTML(){htmlBuilt=`<div style="max-width:600px;margin:0 auto;font-family:Georgia,serif;">${canvasBlocks.map(b=>b.html).join('')}</div>`;}
+function previewHTML(){buildHTML();document.getElementById('html-preview-box').style.display='block';document.getElementById('html-preview-content').innerHTML=htmlBuilt||'<p style="color:#aaa;">Nothing to preview.</p>';}
+function useHTMLInCompose(){buildHTML();if(!htmlBuilt){alert('Add some blocks first.');return;}document.getElementById('body').value='[HTML Template — see HTML Builder tab]';alert('HTML template ready! It will be used when sending.');nav('compose',document.querySelector('.nav-item'));}
+
+// ===== TEMPLATES =====
+const emailTemplates=[
+  {name:'Welcome email',type:'Onboarding',color:'#e8f4fd',subject:'Welcome to {company}, {name}!',body:'Hi {name},\n\nWelcome aboard! We\'re thrilled to have you with us.\n\nHere\'s what you can expect from us:\n• Exclusive updates and news\n• Special offers just for members\n• Helpful tips and guides\n\nIf you have any questions, just reply to this email.\n\nWarm regards,\nThe Team\n\n{unsubscribe}'},
+  {name:'Promotional offer',type:'Sales',color:'#fff3e0',subject:'Special offer just for you, {name}!',body:'Hi {name},\n\nWe have an exclusive offer we didn\'t want you to miss.\n\nFor a limited time, enjoy 20% off everything in our store.\n\nUse code: SPECIAL20 at checkout.\n\nThis offer expires in 48 hours.\n\nShop now!\n\n{unsubscribe}'},
+  {name:'Newsletter',type:'Content',color:'#e8f5e9',subject:'Your weekly update from us',body:'Hi {name},\n\nHere\'s your weekly roundup of what\'s happening.\n\n📌 Top story: [Your headline here]\n\n📌 Update 2: [Second story here]\n\n📌 Tip of the week: [Your tip here]\n\nThanks for reading!\n\n{unsubscribe}'},
+  {name:'Follow-up',type:'Outreach',color:'#f3e5f5',subject:'Following up — {name}',body:'Hi {name},\n\nI wanted to follow up on my previous email.\n\nI know you\'re busy, so I\'ll keep this short. I\'d love to hear your thoughts.\n\nDo you have 10 minutes for a quick chat this week?\n\nBest,\n[Your Name]\n\n{unsubscribe}'},
+  {name:'Event invitation',type:'Event',color:'#fce4ec',subject:'You\'re invited, {name}!',body:'Hi {name},\n\nYou\'re invited to our upcoming event!\n\n📅 Date: [Date here]\n⏰ Time: [Time here]\n📍 Location: [Location or Zoom link]\n\nSpaces are limited — reserve yours today.\n\n[RSVP Button]\n\nWe hope to see you there!\n\n{unsubscribe}'},
+  {name:'Re-engagement',type:'Retention',color:'#e0f2f1',subject:'We miss you, {name}!',body:'Hi {name},\n\nIt\'s been a while since we heard from you, and we miss you!\n\nA lot has changed since your last visit. Come back and see what\'s new — we think you\'ll like it.\n\nAs a welcome back gift, here\'s 15% off: COMEBACK15\n\nSee you soon!\n\n{unsubscribe}'},
+];
+
+function renderTemplates(){
+  const g=document.getElementById('tpl-grid');
+  g.innerHTML='';
+  emailTemplates.forEach((t,i)=>{
+    const d=document.createElement('div');d.className='tpl-card';
+    d.innerHTML=`<div class="tpl-thumb" style="background:${t.color};"><p style="font-weight:700;margin:0 0 4px;font-size:11px;">${t.subject.substring(0,40)}...</p><p style="margin:0;font-size:10px;color:#555;line-height:1.5;">${t.body.substring(0,80)}...</p></div><div class="tpl-foot"><div class="tpl-name">${t.name}</div><div class="tpl-type">${t.type}</div></div>`;
+    d.onclick=()=>useTemplate(i);
+    g.appendChild(d);
+  });
+}
+
+function useTemplate(i){
+  const t=emailTemplates[i];
+  document.getElementById('subject').value=t.subject;
+  document.getElementById('body').value=t.body;
+  nav('compose',document.querySelector('.nav-item'));
+  alert('Template "'+t.name+'" loaded! Edit it in the Message tab.');
+}
+
+// ===== CONTACTS =====
+function renderContacts(){
+  const gl=document.getElementById('group-list');
+  gl.innerHTML='';
+  Object.keys(contacts).forEach(g=>{
+    const d=document.createElement('div');d.className='group-item'+(g===activeGroup?' active':'');
+    d.innerHTML=g+' <span class="badge blue">'+contacts[g].length+'</span>';
+    d.onclick=()=>{activeGroup=g;document.getElementById('active-grp-name').textContent=g;renderContacts();};
+    gl.appendChild(d);
+  });
+  document.getElementById('grp-badge').textContent=Object.keys(contacts).length;
+  const cl=document.getElementById('contact-list');cl.innerHTML='';
+  const cols=['#dbeafe','#dcfce7','#fee2e2','#fef3c7','#f3e8ff'];
+  const tcols=['#1e40af','#166534','#991b1b','#92400e','#6b21a8'];
+  (contacts[activeGroup]||[]).forEach((c,i)=>{
+    const ci=i%5;const init=(c.name||c.email).charAt(0).toUpperCase();
+    const d=document.createElement('div');d.className='contact-row';
+    d.innerHTML=`<div class="avatar" style="background:${cols[ci]};color:${tcols[ci]};">${init}</div><div style="flex:1;"><div style="font-weight:600;font-size:12px;color:var(--text);">${c.name||'—'}</div><div style="font-size:11px;color:var(--text3);">${c.email}${c.company?' · '+c.company:''}</div></div><button class="btn sm danger" onclick="removeContact('${c.email}')">Remove</button>`;
+    cl.appendChild(d);
+  });
+  if(!(contacts[activeGroup]||[]).length)cl.innerHTML='<div style="color:var(--text3);font-size:12px;padding:8px 0;">No contacts in this group.</div>';
+}
+
+function addGroup(){const n=prompt('Group name:');if(n&&n.trim()){contacts[n.trim()]=[];renderContacts();}}
+function addContact(){
+  const e=prompt('Email:');if(!e||!e.includes('@'))return;
+  const n=prompt('Name (optional):')||'';
+  const c=prompt('Company (optional):')||'';
+  if(!contacts[activeGroup])contacts[activeGroup]=[];
+  contacts[activeGroup].push({email:e.trim(),name:n,company:c,city:''});
+  if(activeGroup!=='All contacts'){if(!contacts['All contacts'])contacts['All contacts']=[];contacts['All contacts'].push({email:e.trim(),name:n,company:c,city:''});}
+  renderContacts();
+}
+function removeContact(email){Object.keys(contacts).forEach(g=>{contacts[g]=contacts[g].filter(c=>c.email!==email);});renderContacts();}
+function loadGroupToRecipients(){
+  const recs=(contacts[activeGroup]||[]).map(c=>c.email+(c.name?', '+c.name:'')+(c.company?', '+c.company:'')).join('\n');
+  document.getElementById('recipients').value=recs;updateCount();
+  nav('recipients',document.querySelectorAll('.nav-item')[3]);
+  alert('Loaded '+contacts[activeGroup].length+' contacts from "'+activeGroup+'".');
+}
+
+// ===== SMTP =====
+function renderSMTP(){
+  const sl=document.getElementById('smtp-list');sl.innerHTML='';
+  smtpAccounts.forEach((s,i)=>{
+    const d=document.createElement('div');d.className='smtp-item';
+    d.innerHTML=`<div class="smtp-num">${i+1}</div><div style="flex:1;"><div style="font-weight:600;font-size:13px;color:var(--text);">${s.host}:${s.port} (${s.ssl})</div><div style="font-size:11px;color:var(--text3);">${s.user}</div></div><span class="badge ${s.active?'green':'orange'}">${s.active?'Active':'Idle'}</span><button class="btn sm danger" onclick="removeSMTP(${i})">Remove</button>`;
+    sl.appendChild(d);
+  });
+  document.getElementById('smtp-lbl').textContent=smtpAccounts.length?smtpAccounts.length+' SMTP account(s)':'No SMTP configured';
+}
+function addSMTP(){
+  const h=prompt('SMTP host:');if(!h)return;
+  const p=prompt('Port:','587')||'587';
+  const u=prompt('Account ID / email:');if(!u)return;
+  const pw=prompt('Password / API key:')||'';
+  smtpAccounts.push({host:h.trim(),port:p,ssl:'TLS',user:u.trim(),pass:pw,active:true});
+  renderSMTP();alert('SMTP account added and will be used in rotation.');
+}
+function removeSMTP(i){if(smtpAccounts.length<=1&&!confirm('Remove the only SMTP account?'))return;smtpAccounts.splice(i,1);renderSMTP();}
+
+// ===== SCHEDULER =====
+function scheduleCampaign(){
+  const n=document.getElementById('sch-name').value.trim()||'Unnamed';
+  const d=document.getElementById('sch-date').value;
+  const t=document.getElementById('sch-time').value;
+  if(!d||!t){alert('Set a date and time.');return;}
+  schedules.push({name:n,date:d,time:t,status:'Scheduled'});
+  renderSchedules();
+  alert('Campaign "'+n+'" scheduled for '+d+' at '+t+'.');
+}
+function renderSchedules(){
+  const sl=document.getElementById('sch-list');sl.innerHTML='';
+  if(!schedules.length){sl.innerHTML='<div style="color:var(--text3);font-size:12px;padding:10px 0;">No campaigns scheduled yet.</div>';return;}
+  schedules.forEach((s,i)=>{
+    const d=document.createElement('div');d.className='sch-item';
+    d.innerHTML=`<div class="sch-icon"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="var(--accent)" stroke-width="2"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="3" y1="10" x2="21" y2="10"/></svg></div><div style="flex:1;"><div style="font-weight:600;font-size:12px;color:var(--text);">${s.name}</div><div style="font-size:11px;color:var(--text3);">${s.date} at ${s.time}</div></div><span class="badge blue">${s.status}</span><button class="btn sm danger" onclick="removeSchedule(${i})">Cancel</button>`;
+    sl.appendChild(d);
+  });
+}
+function removeSchedule(i){schedules.splice(i,1);renderSchedules();}
+
+// ===== FOLLOW-UP =====
+function addFollowup(){
+  const days=prompt('Send follow-up after how many days if no open?','3');
+  if(!days)return;
+  const subj=prompt('Follow-up subject line:','Quick follow-up...')||'Quick follow-up';
+  followupRules.push({days:parseInt(days)||3,subject:subj,active:true});
+  renderFollowups();
+}
+function renderFollowups(){
+  const fl=document.getElementById('fu-list');fl.innerHTML='';
+  if(!followupRules.length){fl.innerHTML='<div style="color:var(--text3);font-size:12px;padding:8px 0;">No follow-up rules yet. Click + Add rule.</div>';return;}
+  followupRules.forEach((r,i)=>{
+    const d=document.createElement('div');d.className='fu-rule';
+    d.innerHTML=`<div class="fu-num">${i+1}</div><div style="flex:1;font-size:12px;color:var(--text);">If no open after <strong>${r.days} days</strong> → send: <em>"${r.subject}"</em></div><span class="badge ${r.active?'green':'orange'}">${r.active?'Active':'Off'}</span><button class="btn sm" onclick="toggleFU(${i})">${r.active?'Disable':'Enable'}</button><button class="btn sm danger" onclick="removeFU(${i})">Remove</button>`;
+    fl.appendChild(d);
+  });
+}
+function toggleFU(i){followupRules[i].active=!followupRules[i].active;renderFollowups();}
+function removeFU(i){followupRules.splice(i,1);renderFollowups();}
+
+// ===== VALIDATOR =====
+function validateEmails(){
+  const recs=getRecs();
+  if(!recs.length){alert('Add recipients first (Recipients tab).');return;}
+  valResults=[];const seen=new Set();
+  recs.forEach(line=>{
+    const email=line.split(',')[0].trim().toLowerCase();
+    if(seen.has(email)){valResults.push({email,status:'dup',reason:'Duplicate'});return;}
+    seen.add(email);
+    if(!email.includes('@')||!email.includes('.')||email.length<5){valResults.push({email,status:'bad',reason:'Invalid format'});return;}
+    const disp=['mailinator','guerrilla','tempmail','yopmail','throwam'];
+    if(disp.some(d=>email.includes(d))){valResults.push({email,status:'bad',reason:'Disposable email'});return;}
+    valResults.push({email,status:'ok',reason:'Valid'});
+  });
+  const ok=valResults.filter(r=>r.status==='ok').length;
+  const bad=valResults.filter(r=>r.status==='bad').length;
+  const dup=valResults.filter(r=>r.status==='dup').length;
+  document.getElementById('val-summary').innerHTML=`<span class="badge green">${ok} valid</span><span class="badge red">${bad} invalid</span><span class="badge orange">${dup} duplicates</span>`;
+  const vr=document.getElementById('val-results');vr.innerHTML='';
+  valResults.forEach(r=>{const d=document.createElement('div');d.className='val-row '+r.status;d.innerHTML=`<strong>${r.email}</strong><span style="margin-left:auto;font-size:10px;">${r.reason}</span>`;vr.appendChild(d);});
+  nav('validator',document.querySelectorAll('.nav-item')[14]);
+}
+function removeInvalid(){
+  if(!valResults.length){alert('Run validation first.');return;}
+  const valid=valResults.filter(r=>r.status==='ok').map(r=>r.email);
+  document.getElementById('recipients').value=valid.join('\n');updateCount();
+  alert('Removed '+(valResults.filter(r=>r.status!=='ok').length)+' emails. '+valid.length+' remain.');
+  valResults=[];document.getElementById('val-results').innerHTML='';document.getElementById('val-summary').innerHTML='';
+}
+
+// ===== SPAM CHECKER =====
+function checkSpam(){
+  const subj=document.getElementById('subject').value||'';
+  const body=document.getElementById('body').value||'';
+  if(!subj&&!body){alert('Write a subject or body first (Message tab).');return;}
+  const issues=[];let score=0;
+  const spamWords=['free','winner','guaranteed','act now','limited time','click here','buy now','make money','lose weight','!!!','$$$','100%','no cost','risk free'];
+  const found=spamWords.filter(w=>(subj+' '+body).toLowerCase().includes(w));
+  if(found.length>0){score+=found.length*10;issues.push({type:'bad',msg:'Spam trigger words found: '+found.slice(0,4).join(', ')+(found.length>4?' +more':'')});}
+  if(!body.toLowerCase().includes('unsubscribe')){score+=20;issues.push({type:'warn',msg:'No unsubscribe link — add {unsubscribe} to your email body'});}
+  if(subj.length>60){score+=10;issues.push({type:'warn',msg:'Subject line is long ('+subj.length+' chars). Keep under 60.'});}
+  if((subj.match(/[A-Z]/g)||[]).length>subj.length*0.4&&subj.length>5){score+=15;issues.push({type:'bad',msg:'Subject has too many CAPS — looks spammy'});}
+  if(!document.getElementById('from-name').value){score+=10;issues.push({type:'warn',msg:'From name is empty — always set a sender name'});}
+  if(body.length<50){score+=10;issues.push({type:'warn',msg:'Body is very short — spam filters prefer longer content'});}
+  if(issues.length===0){issues.push({type:'ok',msg:'No spam issues detected — looks good!'});}
+  score=Math.min(score,100);
+  document.getElementById('spam-result').style.display='block';
+  const label=score<20?'Low (safe)':score<50?'Medium (check warnings)':'High (fix issues before sending)';
+  document.getElementById('spam-score-text').textContent=score+'% — '+label;
+  document.getElementById('spam-needle').style.left=score+'%';
+  const ic=document.getElementById('spam-issues');ic.innerHTML='';
+  issues.forEach(iss=>{const d=document.createElement('div');d.className='spam-issue '+iss.type;d.innerHTML=`<svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">${iss.type==='ok'?'<polyline points="20 6 9 17 4 12"/>':'<circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/>'}</svg>${iss.msg}`;ic.appendChild(d);});
+  nav('spam',document.querySelectorAll('.nav-item')[15]);
+}
+
+// ===== A/B TEST =====
+function updateABSplit(v){document.getElementById('ab-a-pct').textContent=v+'%';document.getElementById('ab-b-pct').textContent=(100-v)+'%';document.getElementById('ab-split-lbl').textContent=v+' / '+(100-v);}
+function runABTest(){
+  const sa=document.getElementById('ab-subject-a').value.trim();
+  const sb=document.getElementById('ab-subject-b').value.trim();
+  if(!sa||!sb){alert('Fill in both subject lines (A and B) first.');return;}
+  abRunning=true;
+  const openA=Math.round(Math.random()*20+15);
+  const openB=Math.round(Math.random()*20+15);
+  setTimeout(()=>{
+    document.getElementById('ab-a-result').style.display='block';
+    document.getElementById('ab-b-result').style.display='block';
+    document.getElementById('ab-a-result').textContent='Opens: '+openA+'%';
+    document.getElementById('ab-b-result').textContent='Opens: '+openB+'%';
+    const winner=openA>=openB?'A':'B';
+    document.getElementById(openA>=openB?'ab-a':'ab-b').classList.add('ab-winner');
+    document.getElementById('ab-winner-box').style.display='block';
+    document.getElementById('ab-winner-box').textContent='Version '+winner+' is winning with '+Math.max(openA,openB)+'% opens vs '+(winner==='A'?openB:openA)+'%. Click "Pick winner" to send it to the remaining recipients.';
+    alert('A/B test complete!\n\nVersion A: '+openA+'% opens\nVersion B: '+openB+'% opens\n\nWinner: Version '+winner+'!');
+  },1500);
+}
+function pickWinner(){
+  if(!abRunning){alert('Run the A/B test first.');return;}
+  const winSubj=document.getElementById('ab-subject-a').value||document.getElementById('ab-subject-b').value;
+  document.getElementById('subject').value=winSubj;
+  alert('Winning subject line copied to Message tab! Go to Message and hit Send to blast to remaining recipients.');
+  nav('compose',document.querySelector('.nav-item'));
+}
+
+// ===== MOBILE PREVIEW =====
+function refreshMobilePreview(){
+  const from=document.getElementById('from-name').value||'—';
+  const subj=document.getElementById('subject').value||'No subject';
+  const body=document.getElementById('body').value||'Write a message to preview it here.';
+  ['prev-from-mob','prev-from-desk'].forEach(id=>document.getElementById(id).textContent=from);
+  ['prev-subject-mob','prev-subject-desk'].forEach(id=>document.getElementById(id).textContent=subj);
+  ['prev-body-mob','prev-body-desk'].forEach(id=>document.getElementById(id).textContent=body.replace(/{name}/g,'[Name]').replace(/{company}/g,'[Company]').replace(/{unsubscribe}/g,'Unsubscribe'));
+}
+
+// ===== ANALYTICS =====
+function refreshAnalytics(){
+  document.getElementById('an-sent').textContent=analyticsData.sent;
+  const or=analyticsData.sent>0?Math.round(Math.random()*10+20):0;
+  const cr=analyticsData.sent>0?Math.round(Math.random()*5+3):0;
+  const br=analyticsData.sent>0?Math.round(Math.random()*2+1):0;
+  document.getElementById('an-open').textContent=analyticsData.sent?or+'%':'—';
+  document.getElementById('an-click').textContent=analyticsData.sent?cr+'%':'—';
+  document.getElementById('an-bounce').textContent=analyticsData.sent?br+'%':'—';
+  const bc=document.getElementById('bar-chart');bc.innerHTML='';
+  const days=['Mon','Tue','Wed','Thu','Fri','Sat','Sun'];
+  const max=Math.max(...analyticsData.daily,1);
+  analyticsData.daily.forEach((v,i)=>{const c=document.createElement('div');c.className='bar-col';const h=Math.round((v/max)*80);c.innerHTML=`<div class="bar-val">${v}</div><div class="bar" style="height:${h}px;background:${i===6?'var(--success)':'var(--accent)'};"></div><div class="bar-lbl">${days[i]}</div>`;bc.appendChild(c);});
+  const ec=document.getElementById('engage-chart');ec.innerHTML='';
+  [{l:'Delivered',v:100-br,c:'var(--accent)'},{l:'Opened',v:or,c:'var(--success)'},{l:'Clicked',v:cr,c:'var(--warning)'},{l:'Bounced',v:br,c:'var(--danger)'}].forEach(r=>{const d=document.createElement('div');d.className='tl-row';d.innerHTML=`<div class="tl-lbl">${r.l}</div><div class="tl-bar-bg"><div class="tl-fill" style="width:${r.v}%;background:${r.c};"></div></div><div class="tl-val">${analyticsData.sent?r.v+'%':'—'}</div>`;ec.appendChild(d);});
+}
+
+// ===== HISTORY =====
+function renderHistory(){
+  const hl=document.getElementById('history-list');
+  if(!campaignHistory.length){hl.innerHTML='<div style="padding:16px;color:var(--text3);font-size:13px;text-align:center;">No campaigns sent yet — history appears here after sending.</div>';return;}
+  hl.innerHTML='';
+  campaignHistory.forEach((c,i)=>{
+    const d=document.createElement('div');d.className='history-row';
+    d.innerHTML=`<div style="width:30px;height:30px;background:var(--tag-bg);border-radius:6px;display:flex;align-items:center;justify-content:center;flex-shrink:0;"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="var(--accent)" stroke-width="2"><line x1="22" y1="2" x2="11" y2="13"/><polygon points="22 2 15 22 11 13 2 9 22 2"/></svg></div><div style="flex:1;"><div class="history-name">${c.name}</div><div class="history-meta">${c.date} · ${c.time}</div></div><span class="badge green">${c.sent} sent</span>${c.failed?'<span class="badge red">'+c.failed+' failed</span>':''}`;
+    hl.appendChild(d);
+  });
+}
+function clearHistory(){if(confirm('Clear all campaign history?')){campaignHistory=[];renderHistory();}}
+
+// ===== UNSUBSCRIBE =====
+function renderUnsub(){
+  document.getElementById('unsub-badge').textContent=unsubList.length+' unsubscribed';
+  document.getElementById('unsub-total').textContent=unsubList.length;
+  document.getElementById('unsub-week').textContent=Math.floor(unsubList.length*0.3);
+  document.getElementById('unsub-rate').textContent=analyticsData.sent>0?Math.round(unsubList.length/analyticsData.sent*100)+'%':'0%';
+  const ul=document.getElementById('unsub-list');ul.innerHTML='';
+  if(!unsubList.length){ul.innerHTML='<div style="color:var(--text3);font-size:12px;padding:8px 0;">No unsubscribes yet.</div>';return;}
+  unsubList.forEach(e=>{const d=document.createElement('div');d.className='unsub-row';d.innerHTML=`<svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="var(--danger)" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="15" y1="9" x2="9" y2="15"/><line x1="9" y1="9" x2="15" y2="15"/></svg><span style="flex:1;font-family:monospace;font-size:11px;">${e}</span><button class="btn sm" onclick="resubscribe('${e}')">Re-subscribe</button>`;ul.appendChild(d);});
+}
+function manualUnsub(){const e=document.getElementById('manual-unsub').value.trim().toLowerCase();if(!e||!e.includes('@')){alert('Enter a valid email.');return;}if(unsubList.includes(e)){alert('Already on list.');return;}unsubList.push(e);document.getElementById('manual-unsub').value='';renderUnsub();}
+function resubscribe(e){if(confirm('Remove '+e+' from unsubscribe list?')){unsubList=unsubList.filter(x=>x!==e);renderUnsub();}}
+function exportUnsub(){if(!unsubList.length){alert('No unsubscribes to export.');return;}const b=new Blob([unsubList.join('\n')],{type:'text/csv'});const a=document.createElement('a');a.href=URL.createObjectURL(b);a.download='unsubscribed.csv';a.click();}
+function removeUnsubbed(){const r=getRecs();const f=r.filter(x=>!unsubList.includes(x.split(',')[0].trim().toLowerCase()));document.getElementById('recipients').value=f.join('\n');updateCount();alert('Removed '+(r.length-f.length)+' unsubscribed. '+f.length+' remain.');}
+
+// ===== CSV / EXPORT =====
+function handleCSV(e){const f=e.target.files[0];if(!f)return;const r=new FileReader();r.onload=ev=>{const lines=ev.target.result.split('\n').map(l=>l.trim()).filter(l=>l&&l.includes('@'));const a=document.getElementById('recipients');a.value=(a.value?a.value+'\n':'')+lines.join('\n');updateCount();nav('recipients',document.querySelectorAll('.nav-item')[3]);alert('Imported '+lines.length+' email(s).');};r.readAsText(f);e.target.value='';}
+function exportList(){const r=document.getElementById('recipients').value;if(!r.trim()){alert('No recipients.');return;}const b=new Blob([r],{type:'text/csv'});const a=document.createElement('a');a.href=URL.createObjectURL(b);a.download='recipients.csv';a.click();}
+function clearRec(){if(confirm('Clear all recipients?')){document.getElementById('recipients').value='';updateCount();}}
+function dedupeList(){const r=getRecs();const seen=new Set();const u=r.filter(x=>{const e=x.split(',')[0].trim().toLowerCase();if(seen.has(e))return false;seen.add(e);return true;});document.getElementById('recipients').value=u.join('\n');updateCount();alert('Removed '+(r.length-u.length)+' duplicates. '+u.length+' unique emails remain.');}
+
+// ===== RESET =====
+function resetAll(){
+  if(!confirm('Reset everything?'))return;
+  ['from-name','from-email','reply-to','subject'].forEach(id=>document.getElementById(id).value='');
+  document.getElementById('body').value='';document.getElementById('recipients').value='';
+  sentCount=0;failedCount=0;totalCount=0;analyticsData={sent:0,daily:[14,28,52,19,73,41,55]};
+  canvasBlocks=[];htmlBuilt='';
+  document.getElementById('prog-wrap').style.display='none';document.getElementById('prog-fill').style.width='0%';
+  document.getElementById('log-box').style.display='none';document.getElementById('log-box').innerHTML='';
+  document.getElementById('html-preview-box').style.display='none';
+  document.getElementById('spam-result').style.display='none';
+  document.getElementById('ab-winner-box').style.display='none';
+  updateCount();setStatus('Idle — ready to send');
+  nav('compose',document.querySelector('.nav-item'));
+}
+
+// ===== INIT =====
+const today=new Date();
+document.getElementById('sch-date').value=today.toISOString().split('T')[0];
+renderContacts();renderSMTP();renderSchedules();renderFollowups();renderTemplates();renderHistory();
+setStatus('Idle — ready to send');
+updateABSplit(50);
+</script>
+
+
+</body></html>

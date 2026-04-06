@@ -1,0 +1,12 @@
+{
+  "name": "mailblaster-server",
+  "version": "1.0.0",
+  "description": "Mail Blaster Backend Server",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js"
+  },
+  "engines": {
+    "node": ">=16.0.0"
+  }
+}
