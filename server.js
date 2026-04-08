@@ -26,7 +26,7 @@ function sendEmail(to, toName, from, fromName, subject, body, isHTML) {
       method: 'POST',
       headers: {
         'accept': 'application/json',
-        'api-key': BREVO_KEY,
+        'Authorization': `Bearer ${BREVO_KEY}`,
         'content-type': 'application/json',
         'content-length': Buffer.byteLength(payload)
       }
@@ -177,7 +177,7 @@ const server = http.createServer(async (req, res) => {
   res.end(JSON.stringify({ error: 'Not found' }));
 });
 
-server.listen(PORT, () => {
+server.listen(PORT, '0.0.0.0', () => {
   console.log(`Mail Blaster Server running on port ${PORT}`);
   console.log(`Brevo API key: ${BREVO_KEY ? 'SET ✓' : 'NOT SET ✗'}`);
 });
